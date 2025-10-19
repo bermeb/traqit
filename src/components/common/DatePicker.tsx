@@ -5,6 +5,7 @@
 
 import { forwardRef } from 'react';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import { de } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 
