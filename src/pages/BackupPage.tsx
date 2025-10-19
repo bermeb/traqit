@@ -3,7 +3,7 @@
  * Export and import data
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAppContext } from '../context';
 import { Button, Card, Modal, ModalActions, ErrorDialog } from '../components/common';
 import { exportAsZip, exportCSV } from '../services/export';
@@ -25,9 +25,9 @@ export function BackupPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load stats on mount
-  useState(() => {
+  useEffect(() => {
     getDBStats().then(setStats);
-  });
+  }, []);
 
   const handleExportZip = async () => {
     setIsExporting(true);
