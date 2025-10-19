@@ -1,0 +1,17 @@
+/**
+ * ChartView Styles
+ */
+
+.chart-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.chart-view__filters {
+  background-color: var(--color-surface);
+}
+
+.chart-view__chart {
+  background-color: var(--color-surface);
+}

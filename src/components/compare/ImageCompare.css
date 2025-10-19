@@ -1,0 +1,129 @@
+/**
+ * ImageCompare Styles
+ */
+
+.image-compare {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-height: 600px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-background);
+  user-select: none;
+  touch-action: none;
+}
+
+.image-compare__before,
+.image-compare__after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-compare__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-compare__before {
+  z-index: 2;
+}
+
+.image-compare__after {
+  z-index: 1;
+}
+
+.image-compare__label {
+  position: absolute;
+  top: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.image-compare__label--before {
+  left: var(--spacing-md);
+}
+
+.image-compare__label--after {
+  right: var(--spacing-md);
+}
+
+.image-compare__slider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  margin-left: -2px;
+  z-index: 3;
+  cursor: ew-resize;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-compare__slider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.image-compare__slider-handle {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  z-index: 1;
+  transition: transform var(--transition-fast);
+}
+
+.image-compare__slider:hover .image-compare__slider-handle,
+.image-compare__slider:active .image-compare__slider-handle {
+  transform: scale(1.1);
+}
+
+.image-compare__slider-arrow {
+  color: var(--color-primary);
+  font-size: 12px;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .image-compare {
+    max-height: 500px;
+  }
+
+  .image-compare__slider-handle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .image-compare__slider-arrow {
+    font-size: 10px;
+  }
+
+  .image-compare__label {
+    font-size: var(--font-size-xs);
+    padding: 4px 8px;
+  }
+}

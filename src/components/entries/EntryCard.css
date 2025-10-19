@@ -1,0 +1,108 @@
+/**
+ * EntryCard Styles
+ */
+
+.entry-card {
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.entry-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.entry-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.entry-card__date {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.entry-card__actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.entry-card__image {
+  margin-bottom: var(--spacing-md);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-width: 500px;
+  max-height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.entry-card__image img {
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.entry-card__values {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.entry-card__value {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  background-color: var(--color-background);
+  border-radius: var(--radius-sm);
+}
+
+.entry-card__value-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.entry-card__value-data {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.entry-card__notes {
+  padding: var(--spacing-sm);
+  background-color: var(--color-background);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.entry-card__notes strong {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 640px) {
+  .entry-card__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+
+  .entry-card__actions {
+    justify-content: stretch;
+  }
+
+  .entry-card__actions button {
+    flex: 1;
+  }
+
+  .entry-card__values {
+    grid-template-columns: 1fr;
+  }
+}

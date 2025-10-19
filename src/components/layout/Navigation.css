@@ -1,0 +1,118 @@
+/**
+ * Navigation Styles
+ */
+
+.navigation {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky);
+}
+
+.navigation__container {
+  display: flex;
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.navigation__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.navigation__item:hover {
+  color: var(--color-primary);
+  background-color: var(--color-background);
+}
+
+.navigation__item--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.navigation__icon {
+  font-size: var(--font-size-xl);
+}
+
+.navigation__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Desktop: Top navigation */
+@media (min-width: 769px) {
+  .navigation {
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--color-divider);
+    border-top: none;
+  }
+
+  .navigation__item {
+    border-bottom: 3px solid transparent;
+    border-top: none;
+  }
+
+  .navigation__item--active {
+    border-bottom-color: var(--color-primary);
+    border-top-color: transparent;
+  }
+}
+
+/* Mobile: Bottom navigation */
+@media (max-width: 768px) {
+  .navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    border-bottom: none;
+    border-top: 1px solid var(--color-divider);
+    box-shadow: var(--shadow-lg);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .navigation__container {
+    justify-content: space-around;
+    overflow-x: visible;
+  }
+
+  .navigation__item {
+    padding: var(--spacing-sm) var(--spacing-xs);
+    border-bottom: none;
+    border-top: 3px solid transparent;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .navigation__item--active {
+    border-bottom-color: transparent;
+    border-top-color: var(--color-primary);
+  }
+
+  .navigation__icon {
+    font-size: 1.5rem;
+  }
+
+  .navigation__label {
+    font-size: 0.65rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}

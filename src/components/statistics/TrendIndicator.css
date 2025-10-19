@@ -1,0 +1,54 @@
+/**
+ * TrendIndicator Styles
+ */
+
+.trend-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.trend-indicator__icon {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.trend-indicator__value {
+  line-height: 1;
+}
+
+/* Positive trend (green) */
+.trend-indicator--positive {
+  color: var(--color-success);
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* Negative trend (red) */
+.trend-indicator--negative {
+  color: var(--color-error);
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* Stable trend (gray) */
+.trend-indicator--stable {
+  color: var(--color-text-secondary);
+  background-color: rgba(189, 189, 189, 0.1);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .trend-indicator--positive {
+  background-color: rgba(102, 187, 106, 0.15);
+}
+
+[data-theme="dark"] .trend-indicator--negative {
+  background-color: rgba(239, 83, 80, 0.15);
+}
+
+[data-theme="dark"] .trend-indicator--stable {
+  background-color: rgba(117, 117, 117, 0.15);
+}

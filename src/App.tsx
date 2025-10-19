@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/**
+ * Main App Component
+ * Handles routing and layout
+ */
+
+import { useAppContext } from './context';
+import { Header, Navigation } from './components/layout';
+import { Loading } from './components/common';
+import { HomePage, FieldsPage, EntriesPage, ChartsPage, BackupPage, ViewConfigsPage, ImageComparisonPage } from './pages';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { currentRoute, isLoading, error } = useAppContext();
+
+  if (isLoading) {
+    return <Loading fullScreen text="Lade Daten..." />;
+  }
+
+  // Render current page based on route
+  let PageComponent;
+  switch (currentRoute) {
+    case '/':
+      PageComponent = HomePage;
+      break;
+    case '/fields':
+      PageComponent = FieldsPage;
+      break;
+    case '/entries':
+      PageComponent = EntriesPage;
+      break;
+    case '/charts':
+      PageComponent = ChartsPage;
+      break;
+    case '/backup':
+      PageComponent = BackupPage;
+      break;
+    case '/view-configs':
+      PageComponent = ViewConfigsPage;
+      break;
+    case '/image-compare':
+      PageComponent = ImageComparisonPage;
+      break;
+    default:
+      PageComponent = HomePage;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <Header />
+      <Navigation />
+
+      <main className="app__main">
+        {error && (
+          <div className="app__error animate-slide-in-down">
+            <p>{error}</p>
+          </div>
+        )}
+        <div className="app__page animate-fade-in" key={currentRoute}>
+          <PageComponent />
+        </div>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;

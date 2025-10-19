@@ -1,0 +1,46 @@
+/**
+ * StatGrid Styles
+ */
+
+.stat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.stat-grid__empty {
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xxl);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.stat-grid__empty p {
+  font-size: var(--font-size-lg);
+  margin: 0;
+}
+
+.stat-grid__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 640px) {
+  .stat-grid {
+    gap: var(--spacing-lg);
+  }
+
+  .stat-grid__cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stat-grid__cards {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}

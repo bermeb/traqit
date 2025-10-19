@@ -1,0 +1,71 @@
+/**
+ * FieldCard Styles
+ */
+
+.field-card {
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.field-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.field-card__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.field-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.field-card__name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.field-card__unit {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-mono);
+  background-color: var(--color-background);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  width: fit-content;
+}
+
+.field-card__type {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-disabled);
+  text-transform: uppercase;
+}
+
+.field-card__actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 640px) {
+  .field-card__content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .field-card__actions {
+    justify-content: stretch;
+  }
+
+  .field-card__actions button {
+    flex: 1;
+  }
+}

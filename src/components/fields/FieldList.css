@@ -1,0 +1,24 @@
+/**
+ * FieldList Styles
+ */
+
+.field-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.field-list-empty {
+  text-align: center;
+  padding: var(--spacing-xxl) var(--spacing-md);
+  color: var(--color-text-secondary);
+}
+
+.field-list-empty p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.field-list-empty__hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-disabled);
+}

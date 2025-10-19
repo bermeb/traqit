@@ -1,0 +1,37 @@
+/**
+ * EntriesPage Styles
+ */
+
+.entries-page {
+  padding: var(--spacing-xl) 0;
+}
+
+.entries-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.entries-page__header h2 {
+  margin: 0;
+}
+
+.entries-page__actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .entries-page__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .entries-page__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+}
