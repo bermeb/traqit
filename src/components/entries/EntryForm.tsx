@@ -30,7 +30,7 @@ export function EntryForm({
   // Ensure date is always a valid Date object
   const getValidDate = (date: Date | undefined): Date => {
     if (!date) return new Date();
-    const dateObj = true ? date : new Date(date);
+    const dateObj = date;
     return isNaN(dateObj.getTime()) ? new Date() : dateObj;
   };
 

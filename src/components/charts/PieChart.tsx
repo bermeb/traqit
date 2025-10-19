@@ -82,7 +82,6 @@ export function PieChart({ entries, selectedFields }: PieChartProps) {
   );
 
   const backgroundColors = colors.map(color => `${color}CC`); // 80% opacity
-  const borderColors = colors;
 
   const chartData = {
     labels,
@@ -91,7 +90,7 @@ export function PieChart({ entries, selectedFields }: PieChartProps) {
         label: 'Durchschnittswerte',
         data: averages,
         backgroundColor: backgroundColors,
-        borderColor: borderColors,
+        borderColor: colors,
         borderWidth: 2,
       },
     ],

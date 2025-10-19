@@ -89,8 +89,8 @@ export function dateToInputValue(date: Date | undefined | null): string {
     return format(new Date(), 'yyyy-MM-dd');
   }
 
-  // Convert to Date object if it's a string or timestamp
-  const dateObj = date instanceof Date ? date : new Date(date);
+  // Use the Date object directly
+  const dateObj = date;
 
   // Check if the date is valid
   if (isNaN(dateObj.getTime())) {

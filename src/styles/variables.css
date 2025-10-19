@@ -17,6 +17,7 @@
   /* Colors - Success/Error/Warning */
   --color-success: #4CAF50;
   --color-error: #F44336;
+  --color-danger: #F44336;
   --color-warning: #FF9800;
   --color-info: #2196F3;
 
@@ -28,6 +29,7 @@
   --color-divider: #EEEEEE;
   --color-background: #FAFAFA;
   --color-surface: #FFFFFF;
+  --color-surface-hover: #F5F5F5;
   --color-overlay: rgba(0, 0, 0, 0.5);
 
   /* Spacing */
@@ -61,6 +63,7 @@
   --font-size-xs: 0.75rem;    /* 12px */
   --font-size-sm: 0.875rem;   /* 14px */
   --font-size-base: 1rem;     /* 16px */
+  --font-size-md: 1.0625rem;  /* 17px */
   --font-size-lg: 1.125rem;   /* 18px */
   --font-size-xl: 1.25rem;    /* 20px */
   --font-size-2xl: 1.5rem;    /* 24px */
@@ -112,6 +115,7 @@
   /* Colors - Success/Error/Warning (brighter) */
   --color-success: #66BB6A;
   --color-error: #EF5350;
+  --color-danger: #EF5350;
   --color-warning: #FFA726;
   --color-info: #42A5F5;
 
@@ -123,6 +127,7 @@
   --color-divider: #303030;
   --color-background: #121212;
   --color-surface: #1E1E1E;
+  --color-surface-hover: #2A2A2A;
   --color-overlay: rgba(0, 0, 0, 0.7);
 
   /* Shadows (darker with more contrast) */

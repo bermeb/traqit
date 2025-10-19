@@ -22,11 +22,17 @@ const indexedDB = {
   databases: vi.fn(),
 };
 
-global.indexedDB = indexedDB as unknown as IDBFactory;
+Object.defineProperty(global, 'indexedDB', {
+  value: indexedDB as unknown as IDBFactory,
+  writable: true,
+});
 
 // Mock crypto.randomUUID
 if (!global.crypto) {
-  global.crypto = {} as Crypto;
+  Object.defineProperty(global, 'crypto', {
+    value: {} as Crypto,
+    writable: true,
+  });
 }
 
 if (!global.crypto.randomUUID) {
