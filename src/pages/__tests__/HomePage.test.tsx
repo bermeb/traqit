@@ -166,31 +166,6 @@ describe('HomePage Component', () => {
       expect(screen.getByText('Dashboard')).toBeInTheDocument();
     });
 
-    it('should render tracking duration', () => {
-      render(<HomePage />);
-      expect(screen.getByText(/Tracking seit/)).toBeInTheDocument();
-    });
-
-    it('should not show tracking duration when no entries', () => {
-      vi.mocked(useAppContext).mockReturnValue({
-        fields: mockFields,
-        entries: [],
-        isLoading: false,
-        error: null,
-        currentRoute: '/',
-        setFields: vi.fn(),
-        setEntries: vi.fn(),
-        setCurrentRoute: vi.fn(),
-        setIsLoading: vi.fn(),
-        setError: vi.fn(),
-        refreshFields: vi.fn(),
-        refreshEntries: vi.fn(),
-        clearError: vi.fn(),
-      });
-
-      render(<HomePage />);
-      expect(screen.queryByText(/Tracking seit/)).not.toBeInTheDocument();
-    });
   });
 
   describe('Statistics Cards', () => {
@@ -494,74 +469,6 @@ describe('HomePage Component', () => {
     it('should not show welcome when both fields and entries exist', () => {
       render(<HomePage />);
       expect(screen.queryByText('Willkommen bei TraqIt')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('Tracking Duration', () => {
-    it('should calculate tracking days correctly', () => {
-      const oldDate = new Date();
-      oldDate.setDate(oldDate.getDate() - 30);
-
-      vi.mocked(useAppContext).mockReturnValue({
-        fields: mockFields,
-        entries: [
-          {
-            id: 'entry-old',
-            date: oldDate,
-            values: { 'field-1': '20' },
-            createdAt: oldDate,
-            updatedAt: oldDate,
-          },
-          ...mockEntries,
-        ],
-        isLoading: false,
-        error: null,
-        currentRoute: '/',
-        setFields: vi.fn(),
-        setEntries: vi.fn(),
-        setCurrentRoute: vi.fn(),
-        setIsLoading: vi.fn(),
-        setError: vi.fn(),
-        refreshFields: vi.fn(),
-        refreshEntries: vi.fn(),
-        clearError: vi.fn(),
-      });
-
-      render(<HomePage />);
-      // Check that tracking duration is displayed (actual days might vary slightly)
-      expect(screen.getByText(/Tracking seit \d+ Tag/)).toBeInTheDocument();
-    });
-
-    it('should display singular "Tag" for one day', () => {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-
-      vi.mocked(useAppContext).mockReturnValue({
-        fields: mockFields,
-        entries: [
-          {
-            id: 'entry-yesterday',
-            date: yesterday,
-            values: { 'field-1': '20' },
-            createdAt: yesterday,
-            updatedAt: yesterday,
-          },
-        ],
-        isLoading: false,
-        error: null,
-        currentRoute: '/',
-        setFields: vi.fn(),
-        setEntries: vi.fn(),
-        setCurrentRoute: vi.fn(),
-        setIsLoading: vi.fn(),
-        setError: vi.fn(),
-        refreshFields: vi.fn(),
-        refreshEntries: vi.fn(),
-        clearError: vi.fn(),
-      });
-
-      render(<HomePage />);
-      expect(screen.getByText(/Tracking seit 1 Tag/)).toBeInTheDocument();
     });
   });
 

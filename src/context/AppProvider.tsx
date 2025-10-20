@@ -9,6 +9,7 @@ import { Field, Entry, Route } from '../types';
 import { initDB, getFields, getEntries } from '../services/db';
 import { initializeDefaultFields } from '../utils/initializeDefaultFields';
 import { initializeViewConfigs } from '../utils/initializeViewConfigs';
+import { migrateFieldGoalDirection } from '../utils/migrateFieldGoalDirection';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -37,6 +38,9 @@ export function AppProvider({ children }: AppProviderProps) {
 
       // Initialize default view configurations
       await initializeViewConfigs();
+
+      // Run migration for existing fields to add goalDirection
+      await migrateFieldGoalDirection();
 
       // Load initial data
       const [loadedFields, loadedEntries] = await Promise.all([

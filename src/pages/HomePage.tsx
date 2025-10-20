@@ -21,12 +21,6 @@ export function HomePage() {
   const entriesWithImages = entries.filter((e) => e.imageId).length;
   const sortedEntries = [...entries].sort((a, b) => b.date.getTime() - a.date.getTime());
   const lastEntryDate = sortedEntries[0]?.date;
-  const firstEntryDate = sortedEntries[sortedEntries.length - 1]?.date;
-
-  // Calculate tracking duration
-  const trackingDays = firstEntryDate
-    ? Math.floor((new Date().getTime() - firstEntryDate.getTime()) / (1000 * 60 * 60 * 24))
-    : 0;
 
   const stats = [
     { label: 'Messfelder', value: fields.length, icon: '📝', color: 'primary' },
@@ -64,11 +58,6 @@ export function HomePage() {
         <div className="home-page__header">
           <div>
             <h2 className="home-page__title">Dashboard</h2>
-            {trackingDays > 0 && (
-              <p className="home-page__subtitle">
-                📊 Tracking seit {trackingDays} {trackingDays === 1 ? 'Tag' : 'Tagen'}
-              </p>
-            )}
           </div>
         </div>
 

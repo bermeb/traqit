@@ -72,8 +72,8 @@
 .view-config-card__badge {
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
@@ -171,13 +171,13 @@
 
 .icon-selector__item:hover {
   border-color: var(--color-primary);
-  background: var(--color-primary-light);
+  background: rgba(74, 144, 226, 0.15);
 }
 
 .icon-selector__item--selected {
   border-color: var(--color-primary);
-  background: var(--color-primary-light);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+  background: rgba(74, 144, 226, 0.15);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
 }
 
 .chart-type-selector {

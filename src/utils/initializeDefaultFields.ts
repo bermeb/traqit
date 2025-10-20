@@ -43,6 +43,16 @@ export async function initializeDefaultFields(): Promise<boolean> {
       const fieldNameLower = defaultField.name.toLowerCase();
 
       if (!existingFieldNames.has(fieldNameLower)) {
+        // Determine goalDirection based on field name
+        let goalDirection: 'increase' | 'decrease' = 'increase';
+        if (
+          fieldNameLower.includes('gewicht') ||
+          fieldNameLower.includes('fett') ||
+          fieldNameLower.includes('kfa')
+        ) {
+          goalDirection = 'decrease';
+        }
+
         await addField({
           id: crypto.randomUUID(),
           name: defaultField.name,
@@ -50,6 +60,7 @@ export async function initializeDefaultFields(): Promise<boolean> {
           type: 'number',
           createdAt: new Date(),
           order: order++,
+          goalDirection,
         });
 
         // Add to set to prevent duplicates in this run

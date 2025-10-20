@@ -40,11 +40,8 @@ export function StatGrid({ entries, fields }: StatGridProps) {
           const field = fields.find((f) => f.id === stat.fieldId);
           if (!field) return null;
 
-          // Determine if lower is better (e.g., weight, body fat)
-          const inverse = field.name.toLowerCase().includes('gewicht') ||
-                         field.name.toLowerCase().includes('fett') ||
-                         field.name.toLowerCase().includes('weight') ||
-                         field.name.toLowerCase().includes('fat');
+          // Use field's goalDirection to determine if lower is better (default: 'increase')
+          const inverse = (field.goalDirection || 'increase') === 'decrease';
 
           return (
             <StatCard

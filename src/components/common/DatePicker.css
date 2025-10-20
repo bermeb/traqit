@@ -104,8 +104,8 @@
 }
 
 .react-datepicker__day:hover {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: white;
 }
 
 .react-datepicker__day--selected,

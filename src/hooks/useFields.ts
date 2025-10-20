@@ -43,6 +43,7 @@ export function useFields() {
           type: data.type,
           createdAt: new Date(),
           order: fields.length, // Add at the end
+          goalDirection: data.goalDirection,
         };
 
         // Save to DB

@@ -103,8 +103,8 @@
 }
 
 .view-config-quick-card__badge--primary {
-  color: var(--color-primary);
-  background: var(--color-primary-light);
+  color: white;
+  background: var(--color-primary);
   font-weight: var(--font-weight-medium);
 }
 

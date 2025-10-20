@@ -12,7 +12,7 @@ import { getViewConfigsUsingField, updateViewConfig } from '../services/db';
 import './FieldsPage.css';
 
 export function FieldsPage() {
-  const { fields, addField, updateField, deleteField } = useFields();
+  const { fields, addField, updateField, deleteField, reorderFields } = useFields();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingField, setEditingField] = useState<Field | null>(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -71,6 +71,28 @@ export function FieldsPage() {
     setEditingField(null);
   };
 
+  const handleMoveUp = async (id: string) => {
+    const index = fields.findIndex((f) => f.id === id);
+    if (index <= 0) return; // Already at the top or not found
+
+    // Create new order by swapping with previous field
+    const newOrder = [...fields];
+    [newOrder[index - 1], newOrder[index]] = [newOrder[index], newOrder[index - 1]];
+
+    await reorderFields(newOrder.map((f) => f.id));
+  };
+
+  const handleMoveDown = async (id: string) => {
+    const index = fields.findIndex((f) => f.id === id);
+    if (index === -1 || index >= fields.length - 1) return; // Already at the bottom or not found
+
+    // Create new order by swapping with next field
+    const newOrder = [...fields];
+    [newOrder[index], newOrder[index + 1]] = [newOrder[index + 1], newOrder[index]];
+
+    await reorderFields(newOrder.map((f) => f.id));
+  };
+
   return (
     <div className="fields-page">
       <div className="container">
@@ -82,7 +104,13 @@ export function FieldsPage() {
         </div>
 
         <Card>
-          <FieldList fields={fields} onEdit={handleEditField} onDelete={handleDeleteField} />
+          <FieldList
+            fields={fields}
+            onEdit={handleEditField}
+            onDelete={handleDeleteField}
+            onMoveUp={handleMoveUp}
+            onMoveDown={handleMoveDown}
+          />
         </Card>
 
         <Modal
@@ -99,6 +127,7 @@ export function FieldsPage() {
                     name: editingField.name,
                     unit: editingField.unit,
                     type: editingField.type,
+                    goalDirection: editingField.goalDirection || 'increase',
                   }
                 : undefined
             }

@@ -11,9 +11,11 @@ interface FieldListProps {
   fields: Field[];
   onEdit: (field: Field) => void;
   onDelete: (id: string) => void;
+  onMoveUp?: (id: string) => void;
+  onMoveDown?: (id: string) => void;
 }
 
-export function FieldList({ fields, onEdit, onDelete }: FieldListProps) {
+export function FieldList({ fields, onEdit, onDelete, onMoveUp, onMoveDown }: FieldListProps) {
   if (fields.length === 0) {
     return (
       <div className="field-list-empty">
@@ -27,8 +29,17 @@ export function FieldList({ fields, onEdit, onDelete }: FieldListProps) {
 
   return (
     <div className="field-list">
-      {fields.map((field) => (
-        <FieldCard key={field.id} field={field} onEdit={onEdit} onDelete={onDelete} />
+      {fields.map((field, index) => (
+        <FieldCard
+          key={field.id}
+          field={field}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onMoveUp={onMoveUp}
+          onMoveDown={onMoveDown}
+          isFirst={index === 0}
+          isLast={index === fields.length - 1}
+        />
       ))}
     </div>
   );

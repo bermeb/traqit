@@ -4,7 +4,7 @@
  */
 
 import { useState, FormEvent } from 'react';
-import { FieldFormData, FieldType } from '../../types';
+import { FieldFormData, FieldType, GoalDirection } from '../../types';
 import { Button, Input } from '../common';
 import './FieldForm.css';
 
@@ -26,6 +26,7 @@ export function FieldForm({
       name: '',
       unit: '',
       type: 'number',
+      goalDirection: 'increase',
     }
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,6 +45,7 @@ export function FieldForm({
           name: '',
           unit: '',
           type: 'number',
+          goalDirection: 'increase',
         });
       }
     } catch (err) {
@@ -95,6 +97,39 @@ export function FieldForm({
               onChange={(e) => setFormData({ ...formData, type: e.target.value as FieldType })}
             />
             <span>Text</span>
+          </label>
+        </div>
+      </div>
+
+      <div className="field-form__goal">
+        <label className="field-form__goal-label">Zielrichtung für Trends</label>
+        <p className="field-form__goal-hint">Wann ist eine Veränderung positiv?</p>
+        <div className="field-form__goal-options">
+          <label className="field-form__goal-option">
+            <input
+              type="radio"
+              name="goalDirection"
+              value="increase"
+              checked={formData.goalDirection === 'increase'}
+              onChange={(e) => setFormData({ ...formData, goalDirection: e.target.value as GoalDirection })}
+            />
+            <span className="field-form__goal-option-text">
+              <strong>Steigend ↑</strong>
+              <small>Höher ist besser (z.B. Muskelumfang)</small>
+            </span>
+          </label>
+          <label className="field-form__goal-option">
+            <input
+              type="radio"
+              name="goalDirection"
+              value="decrease"
+              checked={formData.goalDirection === 'decrease'}
+              onChange={(e) => setFormData({ ...formData, goalDirection: e.target.value as GoalDirection })}
+            />
+            <span className="field-form__goal-option-text">
+              <strong>Fallend ↓</strong>
+              <small>Niedriger ist besser (z.B. Gewicht, Körperfett)</small>
+            </span>
           </label>
         </div>
       </div>

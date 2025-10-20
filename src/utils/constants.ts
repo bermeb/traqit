@@ -53,6 +53,7 @@ export const STORAGE_KEYS = {
   CHART_PREFERENCES: 'traqit-chart-prefs',
   INITIAL_FIELDS_CREATED: 'traqit-initial-fields-created',
   VIEW_CONFIGS_CREATED: 'traqit-view-configs-created',
+  GOAL_DIRECTION_MIGRATED: 'traqit-goal-direction-migrated',
 } as const;
 
 // Default fields that are created on first app start
