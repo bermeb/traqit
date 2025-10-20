@@ -3,26 +3,33 @@
  * Compare images from different time periods
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from '../context';
 import { useImages } from '../hooks';
-import { ImageCompare } from '../components/compare';
+import { ImageCompare, ImageSelector } from '../components/compare';
 import { Card, Button } from '../components/common';
 import { formatDate } from '../utils';
 import './ImageComparisonPage.css';
 
 type TimeUnit = 'days' | 'months' | 'years';
+type SelectionMode = 'timeRange' | 'manual';
 
 export function ImageComparisonPage() {
   const { entries } = useAppContext();
   const { getImageUrl } = useImages();
 
+  const [selectionMode, setSelectionMode] = useState<SelectionMode>('timeRange');
   const [timeValue, setTimeValue] = useState<number>(3);
   const [timeUnit, setTimeUnit] = useState<TimeUnit>('months');
   const [beforeImageUrl, setBeforeImageUrl] = useState<string | null>(null);
   const [afterImageUrl, setAfterImageUrl] = useState<string | null>(null);
   const [beforeDate, setBeforeDate] = useState<Date | null>(null);
   const [afterDate, setAfterDate] = useState<Date | null>(null);
+
+  // For manual selection
+  const [selectedBeforeId, setSelectedBeforeId] = useState<string | null>(null);
+  const [selectedAfterId, setSelectedAfterId] = useState<string | null>(null);
+  const [imageUrls, setImageUrls] = useState<Map<string, string>>(new Map());
 
   // Get entries with images, sorted by date
   const entriesWithImages = useMemo(() => {
@@ -75,6 +82,33 @@ export function ImageComparisonPage() {
     return entriesWithImages.length > 0 ? entriesWithImages[0] : null;
   };
 
+  // Load all image URLs for manual selection
+  useEffect(() => {
+    const loadImageUrls = async () => {
+      const urlMap = new Map<string, string>();
+
+      for (const entry of entriesWithImages) {
+        const imageId = entry.imageId;
+        if (imageId !== undefined && imageId !== null) {
+          try {
+            const url = await getImageUrl(imageId);
+            if (url) {
+              urlMap.set(entry.id, url);
+            }
+          } catch (error) {
+            console.error(`Failed to load image for entry ${entry.id}:`, error);
+          }
+        }
+      }
+
+      setImageUrls(urlMap);
+    };
+
+    if (selectionMode === 'manual' && entriesWithImages.length > 0) {
+      loadImageUrls();
+    }
+  }, [selectionMode, entriesWithImages, getImageUrl]);
+
   const handleCompare = async () => {
     const beforeEntry = findBeforeEntry();
     const afterEntry = findAfterEntry();
@@ -95,6 +129,40 @@ export function ImageComparisonPage() {
       setAfterImageUrl(url);
       setAfterDate(afterEntry.date);
     }
+  };
+
+  const handleManualCompare = () => {
+    if (!selectedBeforeId || !selectedAfterId) {
+      return;
+    }
+
+    const beforeEntry = entriesWithImages.find(e => e.id === selectedBeforeId);
+    const afterEntry = entriesWithImages.find(e => e.id === selectedAfterId);
+
+    if (!beforeEntry || !afterEntry) {
+      return;
+    }
+
+    const beforeUrl = imageUrls.get(selectedBeforeId);
+    const afterUrl = imageUrls.get(selectedAfterId);
+
+    if (beforeUrl && afterUrl) {
+      setBeforeImageUrl(beforeUrl);
+      setAfterImageUrl(afterUrl);
+      setBeforeDate(beforeEntry.date);
+      setAfterDate(afterEntry.date);
+    }
+  };
+
+  const handleModeChange = (mode: SelectionMode) => {
+    setSelectionMode(mode);
+    // Reset selections when switching modes
+    setBeforeImageUrl(null);
+    setAfterImageUrl(null);
+    setBeforeDate(null);
+    setAfterDate(null);
+    setSelectedBeforeId(null);
+    setSelectedAfterId(null);
   };
 
   const getTimeUnitLabel = (unit: TimeUnit): string => {
@@ -131,12 +199,31 @@ export function ImageComparisonPage() {
         ) : (
           <>
             <Card className="image-comparison-page__controls">
-              <h3>Zeitraum wählen</h3>
-              <p className="image-comparison-page__controls-description">
-                Vergleiche ein Bild von vor einiger Zeit mit deinem aktuellsten Bild
-              </p>
+              <h3>Auswahlmodus</h3>
+              <div className="selection-mode-toggle">
+                <button
+                  className={`mode-btn ${selectionMode === 'timeRange' ? 'mode-btn--active' : ''}`}
+                  onClick={() => handleModeChange('timeRange')}
+                >
+                  📅 Nach Zeitraum
+                </button>
+                <button
+                  className={`mode-btn ${selectionMode === 'manual' ? 'mode-btn--active' : ''}`}
+                  onClick={() => handleModeChange('manual')}
+                >
+                  🖼️ Bilder direkt wählen
+                </button>
+              </div>
+            </Card>
 
-              <div className="image-comparison-page__time-selector">
+            {selectionMode === 'timeRange' ? (
+              <Card className="image-comparison-page__controls">
+                <h3>Zeitraum wählen</h3>
+                <p className="image-comparison-page__controls-description">
+                  Vergleiche ein Bild von vor einiger Zeit mit deinem aktuellsten Bild
+                </p>
+
+                <div className="image-comparison-page__time-selector">
                 <div className="time-input-group">
                   <label htmlFor="time-value">Vor</label>
                   <input
@@ -184,7 +271,48 @@ export function ImageComparisonPage() {
                   Zeitraum: <strong>Vor {timeValue} {getTimeUnitLabel(timeUnit)}</strong> vs. <strong>Aktuell</strong>
                 </p>
               </div>
-            </Card>
+              </Card>
+            ) : (
+              <Card className="image-comparison-page__manual-selection">
+                <h3>Bilder auswählen</h3>
+                <p className="image-comparison-page__controls-description">
+                  Wähle zwei beliebige Bilder aus, um sie zu vergleichen
+                </p>
+
+                <div className="image-comparison-page__selectors">
+                  <ImageSelector
+                    entries={entriesWithImages}
+                    selectedId={selectedBeforeId}
+                    onSelect={setSelectedBeforeId}
+                    label="Vorher-Bild"
+                    imageUrls={imageUrls}
+                  />
+
+                  <ImageSelector
+                    entries={entriesWithImages}
+                    selectedId={selectedAfterId}
+                    onSelect={setSelectedAfterId}
+                    label="Nachher-Bild"
+                    imageUrls={imageUrls}
+                  />
+                </div>
+
+                <div className="image-comparison-page__manual-actions">
+                  <Button
+                    variant="primary"
+                    onClick={handleManualCompare}
+                    disabled={!selectedBeforeId || !selectedAfterId}
+                  >
+                    Vergleich starten
+                  </Button>
+                  {(!selectedBeforeId || !selectedAfterId) && (
+                    <p className="image-comparison-page__manual-hint">
+                      Wähle jeweils ein Bild aus beiden Galerien aus
+                    </p>
+                  )}
+                </div>
+              </Card>
+            )}
 
             {beforeImageUrl && afterImageUrl && beforeDate && afterDate && (
               <Card className="image-comparison-page__result">
@@ -201,8 +329,8 @@ export function ImageComparisonPage() {
                   <ImageCompare
                     beforeImage={beforeImageUrl}
                     afterImage={afterImageUrl}
-                    beforeLabel={`Vor ${timeValue} ${getTimeUnitLabel(timeUnit)}`}
-                    afterLabel="Aktuell"
+                    beforeLabel={selectionMode === 'timeRange' ? `Vor ${timeValue} ${getTimeUnitLabel(timeUnit)}` : 'Vorher'}
+                    afterLabel={selectionMode === 'timeRange' ? 'Aktuell' : 'Nachher'}
                   />
                 </div>
                 <p className="image-comparison-page__hint">
