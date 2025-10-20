@@ -80,11 +80,25 @@ export function StatCard({ statistics, unit, inverse = false }: StatCardProps) {
 }
 
 function getChangeClass(change: number, inverse: boolean): string {
-  if (Math.abs(change) < 0.01) return 'stat-card__change--neutral';
-
-  if (inverse) {
-    return change < 0 ? 'stat-card__change--positive' : 'stat-card__change--negative';
+  // Determine arrow direction based on actual change direction
+  let directionClass: string;
+  if (Math.abs(change) < 0.01) {
+    directionClass = 'stat-card__change--stable';
+  } else {
+    directionClass = change > 0 ? 'stat-card__change--up' : 'stat-card__change--down';
   }
 
-  return change > 0 ? 'stat-card__change--positive' : 'stat-card__change--negative';
+  // Determine color based on whether change is good or bad in context
+  let colorClass: string;
+  if (Math.abs(change) < 0.01) {
+    colorClass = 'stat-card__change--neutral';
+  } else if (inverse) {
+    // For inverse fields (e.g., weight), lower is better
+    colorClass = change < 0 ? 'stat-card__change--positive' : 'stat-card__change--negative';
+  } else {
+    // For normal fields, higher is better
+    colorClass = change > 0 ? 'stat-card__change--positive' : 'stat-card__change--negative';
+  }
+
+  return `${directionClass} ${colorClass}`;
 }

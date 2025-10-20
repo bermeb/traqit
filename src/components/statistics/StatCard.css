@@ -123,31 +123,33 @@
   gap: 4px;
 }
 
-.stat-card__change--positive {
-  color: var(--color-success);
-}
-
-.stat-card__change--positive::before {
+/* Arrow direction classes - show actual trend direction */
+.stat-card__change--up::before {
   content: '↑';
   font-size: 1.2em;
+}
+
+.stat-card__change--down::before {
+  content: '↓';
+  font-size: 1.2em;
+}
+
+.stat-card__change--stable::before {
+  content: '→';
+  font-size: 1.2em;
+}
+
+/* Color classes - indicate if change is positive or negative in context */
+.stat-card__change--positive {
+  color: var(--color-success);
 }
 
 .stat-card__change--negative {
   color: var(--color-error);
 }
 
-.stat-card__change--negative::before {
-  content: '↓';
-  font-size: 1.2em;
-}
-
 .stat-card__change--neutral {
   color: var(--color-text-secondary);
-}
-
-.stat-card__change--neutral::before {
-  content: '→';
-  font-size: 1.2em;
 }
 
 @media (max-width: 640px) {
