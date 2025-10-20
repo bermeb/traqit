@@ -3,7 +3,8 @@
  * Side-by-side image comparison with slider
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAppContext } from '../../context';
 import './ImageCompare.css';
 
 export interface ImageCompareProps {
@@ -19,8 +20,22 @@ export function ImageCompare({
   beforeLabel = 'Vorher',
   afterLabel = 'Nachher',
 }: ImageCompareProps) {
+  const { isImagesBlurred } = useAppContext();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [isBeforeUnblurred, setIsBeforeUnblurred] = useState(false);
+  const [isAfterUnblurred, setIsAfterUnblurred] = useState(false);
+
+  // Reset unblur state when global blur is disabled
+  useEffect(() => {
+    if (!isImagesBlurred) {
+      setIsBeforeUnblurred(false);
+      setIsAfterUnblurred(false);
+    }
+  }, [isImagesBlurred]);
+
+  const isBeforeBlurred = isImagesBlurred && !isBeforeUnblurred;
+  const isAfterBlurred = isImagesBlurred && !isAfterUnblurred;
 
   const handleMove = (clientX: number, container: HTMLDivElement) => {
     const rect = container.getBoundingClientRect();
@@ -53,8 +68,21 @@ export function ImageCompare({
     >
       {/* After Image (Full) */}
       <div className="image-compare__after">
-        <img src={afterImage} alt={afterLabel} className="image-compare__img" />
+        <img
+          src={afterImage}
+          alt={afterLabel}
+          className={`image-compare__img ${isAfterBlurred ? 'image-blurred' : ''}`}
+        />
         <div className="image-compare__label image-compare__label--after">{afterLabel}</div>
+        {isImagesBlurred && (
+          <button
+            className="image-compare__toggle image-compare__toggle--after"
+            onClick={() => setIsAfterUnblurred(!isAfterUnblurred)}
+            type="button"
+          >
+            {isAfterUnblurred ? '🙈 Verstecken' : '👁️ Anzeigen'}
+          </button>
+        )}
       </div>
 
       {/* Before Image (Clipped) */}
@@ -62,8 +90,21 @@ export function ImageCompare({
         className="image-compare__before"
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
-        <img src={beforeImage} alt={beforeLabel} className="image-compare__img" />
+        <img
+          src={beforeImage}
+          alt={beforeLabel}
+          className={`image-compare__img ${isBeforeBlurred ? 'image-blurred' : ''}`}
+        />
         <div className="image-compare__label image-compare__label--before">{beforeLabel}</div>
+        {isImagesBlurred && (
+          <button
+            className="image-compare__toggle image-compare__toggle--before"
+            onClick={() => setIsBeforeUnblurred(!isBeforeUnblurred)}
+            type="button"
+          >
+            {isBeforeUnblurred ? '🙈 Verstecken' : '👁️ Anzeigen'}
+          </button>
+        )}
       </div>
 
       {/* Slider */}

@@ -13,6 +13,7 @@ export interface AppContextValue {
   currentRoute: Route;
   isLoading: boolean;
   error: string | null;
+  isImagesBlurred: boolean;
 
   // Actions
   setFields: (fields: Field[]) => void;
@@ -23,6 +24,9 @@ export interface AppContextValue {
   refreshFields: () => Promise<void>;
   refreshEntries: () => Promise<void>;
   clearError: () => void;
+  toggleImageBlur: () => void;
+  enableImageBlur: () => void;
+  disableImageBlur: () => void;
 }
 
 export const AppContext = createContext<AppContextValue | undefined>(undefined);

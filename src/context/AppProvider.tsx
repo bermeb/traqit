@@ -10,6 +10,7 @@ import { initDB, getFields, getEntries } from '../services/db';
 import { initializeDefaultFields } from '../utils/initializeDefaultFields';
 import { initializeViewConfigs } from '../utils/initializeViewConfigs';
 import { migrateFieldGoalDirection } from '../utils/migrateFieldGoalDirection';
+import { useImagePrivacy } from '../hooks';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -21,6 +22,9 @@ export function AppProvider({ children }: AppProviderProps) {
   const [currentRoute, setCurrentRoute] = useState<Route>('/');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Image privacy hook
+  const { isBlurred, toggleBlur, enableBlur, disableBlur } = useImagePrivacy();
 
   /**
    * Initialize database and load data
@@ -132,6 +136,7 @@ export function AppProvider({ children }: AppProviderProps) {
     currentRoute,
     isLoading,
     error,
+    isImagesBlurred: isBlurred,
 
     // Actions
     setFields,
@@ -142,6 +147,9 @@ export function AppProvider({ children }: AppProviderProps) {
     refreshFields,
     refreshEntries,
     clearError,
+    toggleImageBlur: toggleBlur,
+    enableImageBlur: enableBlur,
+    disableImageBlur: disableBlur,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

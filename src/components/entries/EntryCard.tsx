@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { Entry, Field } from '../../types';
 import { Card, Button } from '../common';
 import { useImages } from '../../hooks';
+import { useAppContext } from '../../context';
 import { formatDate, formatValue } from '../../utils';
 import './EntryCard.css';
 
@@ -19,13 +20,28 @@ interface EntryCardProps {
 
 export function EntryCard({ entry, fields, onEdit, onDelete }: EntryCardProps) {
   const { getImageUrl } = useImages();
+  const { isImagesBlurred } = useAppContext();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isLocallyUnblurred, setIsLocallyUnblurred] = useState(false);
 
   useEffect(() => {
     if (entry.imageId) {
       getImageUrl(entry.imageId).then(setImageUrl);
     }
   }, [entry.imageId, getImageUrl]);
+
+  // Reset local unblur state when global blur is disabled
+  useEffect(() => {
+    if (!isImagesBlurred) {
+      setIsLocallyUnblurred(false);
+    }
+  }, [isImagesBlurred]);
+
+  const isImageBlurred = isImagesBlurred && !isLocallyUnblurred;
+
+  const handleToggleBlur = () => {
+    setIsLocallyUnblurred(!isLocallyUnblurred);
+  };
 
   // Get field name and unit for each value
   const getFieldInfo = (fieldId: string) => {
@@ -50,7 +66,20 @@ export function EntryCard({ entry, fields, onEdit, onDelete }: EntryCardProps) {
 
       {imageUrl && (
         <div className="entry-card__image">
-          <img src={imageUrl} alt="Entry" />
+          <img
+            src={imageUrl}
+            alt="Entry"
+            className={isImageBlurred ? 'image-blurred' : ''}
+            onClick={isImageBlurred ? handleToggleBlur : undefined}
+          />
+          {isImagesBlurred && (
+            <button
+              className="entry-card__image-toggle"
+              onClick={handleToggleBlur}
+            >
+              {isLocallyUnblurred ? '🙈 Verstecken' : '👁️ Anzeigen'}
+            </button>
+          )}
         </div>
       )}
 
