@@ -95,6 +95,10 @@ describe('ViewConfigsPage Component', () => {
       refreshFields: vi.fn(),
       refreshEntries: vi.fn(),
       clearError: vi.fn(),
+      isImagesBlurred: false,
+      toggleImageBlur: vi.fn(),
+      enableImageBlur: vi.fn(),
+      disableImageBlur: vi.fn(),
     });
 
     vi.mocked(useViewConfigs).mockReturnValue({
@@ -488,6 +492,10 @@ describe('ViewConfigsPage Component', () => {
         refreshFields: vi.fn(),
         refreshEntries: vi.fn(),
         clearError: vi.fn(),
+        isImagesBlurred: false,
+        toggleImageBlur: vi.fn(),
+        enableImageBlur: vi.fn(),
+        disableImageBlur: vi.fn(),
       });
 
       const user = userEvent.setup();
