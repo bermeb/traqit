@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { useAppContext } from '../context';
 import { useViewConfigs } from '../hooks';
 import { ChartView } from '../components/charts';
-import { ChartPresets } from '../components/charts';
 import { ChartType } from '../types';
 import { Card, Button } from '../components/common';
 import './ChartsPage.css';
@@ -17,29 +16,9 @@ export function ChartsPage() {
   const { viewConfigs } = useViewConfigs();
 
   const [selectedFieldIds, setSelectedFieldIds] = useState<string[]>([]);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [startDate] = useState<Date | undefined>(undefined);
+  const [endDate] = useState<Date | undefined>(undefined);
   const [chartType, setChartType] = useState<ChartType>('line');
-
-  const handlePresetSelect = (
-    fieldIds: string[],
-    start: Date,
-    end: Date,
-    type: ChartType
-  ) => {
-    setSelectedFieldIds(fieldIds);
-    setStartDate(start);
-    setEndDate(end);
-    setChartType(type);
-
-    // Smooth scroll to chart view
-    setTimeout(() => {
-      const chartSection = document.querySelector('.chart-view');
-      if (chartSection) {
-        chartSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }, 100);
-  };
 
   const handleViewConfigSelect = (configId: string) => {
     const config = viewConfigs.find((c) => c.id === configId);
@@ -52,14 +31,8 @@ export function ChartsPage() {
 
     if (validFieldIds.length === 0) return;
 
-    // Set date range to last 3 months
-    const end = new Date();
-    const start = new Date();
-    start.setMonth(start.getMonth() - 3);
-
+    // Only update fields and chart type, keep current date range from ChartView
     setSelectedFieldIds(validFieldIds);
-    setStartDate(start);
-    setEndDate(end);
     setChartType(config.chartType || 'line');
 
     // Smooth scroll to chart view
@@ -82,7 +55,7 @@ export function ChartsPage() {
               <div>
                 <h3 className="charts-page__section-title">Meine Ansichten</h3>
                 <p className="charts-page__section-description">
-                  Wähle eine deiner gespeicherten Ansichten für ein Liniendiagramm der letzten 3 Monate
+                  Wähle eine deiner gespeicherten Ansichten. Den Zeitraum kannst du im Diagramm anpassen.
                 </p>
               </div>
               <Button
@@ -135,12 +108,6 @@ export function ChartsPage() {
                 );
               })}
             </div>
-          </Card>
-        )}
-
-        {fields.length > 0 && (
-          <Card className="charts-page__presets">
-            <ChartPresets fields={fields} onPresetSelect={handlePresetSelect} />
           </Card>
         )}
 
