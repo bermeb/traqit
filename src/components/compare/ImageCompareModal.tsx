@@ -53,8 +53,16 @@ export function ImageCompareModal({ isOpen, onClose, entries }: ImageCompareModa
       // Auto-select first two entries with images
       const entriesWithImages = entries.filter((e) => urls.has(e.id));
       if (entriesWithImages.length >= 2) {
-        setBeforeId(entriesWithImages[0].id);
-        setAfterId(entriesWithImages[1].id);
+        // Sort by date for auto-selection
+        const sortedByDate = [...entriesWithImages].sort((a, b) => {
+          const dateA = new Date(a.date).getTime();
+          const dateB = new Date(b.date).getTime();
+          return dateA - dateB; // oldest to newest
+        });
+
+        // Select oldest for "before" and newest for "after"
+        setBeforeId(sortedByDate[0].id);
+        setAfterId(sortedByDate[sortedByDate.length - 1].id);
       } else if (entriesWithImages.length === 1) {
         setBeforeId(entriesWithImages[0].id);
       }
@@ -113,6 +121,8 @@ export function ImageCompareModal({ isOpen, onClose, entries }: ImageCompareModa
                 onSelect={setBeforeId}
                 label="Vorher"
                 imageUrls={imageUrls}
+                sortOrder="oldest-first"
+                disabledIds={afterId ? [afterId] : []}
               />
 
               <ImageSelector
@@ -121,6 +131,8 @@ export function ImageCompareModal({ isOpen, onClose, entries }: ImageCompareModa
                 onSelect={setAfterId}
                 label="Nachher"
                 imageUrls={imageUrls}
+                sortOrder="newest-first"
+                disabledIds={beforeId ? [beforeId] : []}
               />
             </div>
 

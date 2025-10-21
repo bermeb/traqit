@@ -286,6 +286,8 @@ export function ImageComparisonPage() {
                     onSelect={setSelectedBeforeId}
                     label="Vorher-Bild"
                     imageUrls={imageUrls}
+                    sortOrder="oldest-first"
+                    disabledIds={selectedAfterId ? [selectedAfterId] : []}
                   />
 
                   <ImageSelector
@@ -294,6 +296,8 @@ export function ImageComparisonPage() {
                     onSelect={setSelectedAfterId}
                     label="Nachher-Bild"
                     imageUrls={imageUrls}
+                    sortOrder="newest-first"
+                    disabledIds={selectedBeforeId ? [selectedBeforeId] : []}
                   />
                 </div>
 

@@ -55,6 +55,24 @@
   background: rgba(74, 144, 226, 0.1);
 }
 
+.image-selector__item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  filter: grayscale(100%);
+}
+
+.image-selector__item--disabled:hover {
+  border-color: var(--color-border) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.image-selector__item--disabled * {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
 .image-selector__image {
   position: relative;
   width: 100%;
