@@ -23,7 +23,7 @@ const navItems: NavItem[] = [
 ];
 
 export function Navigation() {
-  const { currentRoute, isImagesBlurred, toggleImageBlur } = useAppContext();
+  const { currentRoute } = useAppContext();
 
   return (
     <nav className="navigation">
@@ -38,14 +38,6 @@ export function Navigation() {
             <span className="navigation__label">{item.label}</span>
           </a>
         ))}
-        <button
-          onClick={toggleImageBlur}
-          className="navigation__toggle"
-          title={isImagesBlurred ? 'Bilder anzeigen' : 'Bilder verstecken'}
-        >
-          <span className="navigation__icon">{isImagesBlurred ? '🙈' : '👁️'}</span>
-          <span className="navigation__label">Privatsphäre</span>
-        </button>
       </div>
     </nav>
   );

@@ -4,7 +4,7 @@
  */
 
 import { APP_NAME } from '../../utils';
-import { ThemeToggle } from '../common';
+import { ThemeToggle, PrivacyToggle } from '../common';
 import './Header.css';
 
 export function Header() {
@@ -17,6 +17,7 @@ export function Header() {
             <h1 className="header__title">{APP_NAME}</h1>
           </div>
           <div className="header__actions">
+            <PrivacyToggle />
             <ThemeToggle />
           </div>
         </div>

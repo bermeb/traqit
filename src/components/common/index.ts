@@ -11,6 +11,7 @@ export { Modal, ModalActions } from './Modal';
 export { ConfirmDialog } from './ConfirmDialog';
 export { ErrorDialog } from './ErrorDialog';
 export { ThemeToggle } from './ThemeToggle';
+export { PrivacyToggle } from './PrivacyToggle';
 export { ErrorBoundary } from './ErrorBoundary';
 export { Skeleton, SkeletonCard, SkeletonListItem } from './Skeleton';
 export { Toast } from './Toast';
