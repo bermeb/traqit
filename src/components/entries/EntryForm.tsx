@@ -126,8 +126,8 @@ export function EntryForm({
           <Input
             key={field.id}
             label={`${field.name} (${field.unit})`}
-            type={field.type === 'number' ? 'number' : 'text'}
-            step={field.type === 'number' ? 'any' : undefined}
+            type="text"
+            inputMode={field.type === 'number' ? 'decimal' : 'text'}
             value={formData.values[field.id] || ''}
             onChange={(e) => handleValueChange(field.id, e.target.value)}
             placeholder={field.type === 'number' ? '0' : 'Wert eingeben'}

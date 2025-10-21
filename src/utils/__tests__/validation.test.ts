@@ -64,11 +64,26 @@ describe('Validation Utilities', () => {
   });
 
   describe('validateNumericValue', () => {
-    it('should accept valid numbers', () => {
+    it('should accept valid numbers with dot decimal separator', () => {
       expect(validateNumericValue('75').valid).toBe(true);
       expect(validateNumericValue('75.5').valid).toBe(true);
       expect(validateNumericValue('0').valid).toBe(true);
       expect(validateNumericValue('-10').valid).toBe(true);
+      expect(validateNumericValue('1234.56').valid).toBe(true);
+    });
+
+    it('should accept valid numbers with comma decimal separator', () => {
+      expect(validateNumericValue('75,5').valid).toBe(true);
+      expect(validateNumericValue('37,25').valid).toBe(true);
+      expect(validateNumericValue('0,5').valid).toBe(true);
+      expect(validateNumericValue('-10,75').valid).toBe(true);
+      expect(validateNumericValue('1234,56').valid).toBe(true);
+    });
+
+    it('should accept both comma and dot as decimal separators', () => {
+      // Test that both formats are equally valid
+      expect(validateNumericValue('37.5').valid).toBe(true);
+      expect(validateNumericValue('37,5').valid).toBe(true);
     });
 
     it('should reject empty values', () => {

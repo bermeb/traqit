@@ -67,6 +67,161 @@ describe('Statistics Utilities', () => {
       }
     });
 
+    it('should calculate correct statistics with comma-formatted numbers', () => {
+      const entriesWithCommas: Entry[] = [
+        {
+          id: 'entry-1',
+          date: new Date('2025-10-01'),
+          values: { 'field-1': '75,5' },
+          createdAt: new Date('2025-10-01'),
+          updatedAt: new Date('2025-10-01'),
+        },
+        {
+          id: 'entry-2',
+          date: new Date('2025-10-08'),
+          values: { 'field-1': '80,2' },
+          createdAt: new Date('2025-10-08'),
+          updatedAt: new Date('2025-10-08'),
+        },
+        {
+          id: 'entry-3',
+          date: new Date('2025-10-15'),
+          values: { 'field-1': '78,9' },
+          createdAt: new Date('2025-10-15'),
+          updatedAt: new Date('2025-10-15'),
+        },
+        {
+          id: 'entry-4',
+          date: new Date('2025-10-22'),
+          values: { 'field-1': '82,1' },
+          createdAt: new Date('2025-10-22'),
+          updatedAt: new Date('2025-10-22'),
+        },
+      ];
+
+      const stats = calculateFieldStatistics(entriesWithCommas, mockField);
+
+      expect(stats).not.toBeNull();
+      if (stats) {
+        expect(stats.current).toBeCloseTo(82.1, 1);
+        expect(stats.min).toBeCloseTo(75.5, 1);
+        expect(stats.max).toBeCloseTo(82.1, 1);
+        // Average: (75.5 + 80.2 + 78.9 + 82.1) / 4 = 79.175
+        expect(stats.average).toBeCloseTo(79.175, 2);
+        expect(stats.dataPoints).toBe(4);
+      }
+    });
+
+    it('should calculate correct statistics with mixed comma and dot formats', () => {
+      const entriesWithMixed: Entry[] = [
+        {
+          id: 'entry-1',
+          date: new Date('2025-10-01'),
+          values: { 'field-1': '75,5' }, // comma
+          createdAt: new Date('2025-10-01'),
+          updatedAt: new Date('2025-10-01'),
+        },
+        {
+          id: 'entry-2',
+          date: new Date('2025-10-08'),
+          values: { 'field-1': '80.2' }, // dot
+          createdAt: new Date('2025-10-08'),
+          updatedAt: new Date('2025-10-08'),
+        },
+        {
+          id: 'entry-3',
+          date: new Date('2025-10-15'),
+          values: { 'field-1': '78,9' }, // comma
+          createdAt: new Date('2025-10-15'),
+          updatedAt: new Date('2025-10-15'),
+        },
+        {
+          id: 'entry-4',
+          date: new Date('2025-10-22'),
+          values: { 'field-1': '82.1' }, // dot
+          createdAt: new Date('2025-10-22'),
+          updatedAt: new Date('2025-10-22'),
+        },
+      ];
+
+      const stats = calculateFieldStatistics(entriesWithMixed, mockField);
+
+      expect(stats).not.toBeNull();
+      if (stats) {
+        expect(stats.current).toBeCloseTo(82.1, 1);
+        expect(stats.min).toBeCloseTo(75.5, 1);
+        expect(stats.max).toBeCloseTo(82.1, 1);
+        expect(stats.average).toBeCloseTo(79.175, 2);
+        expect(stats.dataPoints).toBe(4);
+      }
+    });
+
+    it('should handle integer values stored as strings', () => {
+      const entriesWithStrings: Entry[] = [
+        {
+          id: 'entry-1',
+          date: new Date('2025-10-01'),
+          values: { 'field-1': '75' },
+          createdAt: new Date('2025-10-01'),
+          updatedAt: new Date('2025-10-01'),
+        },
+        {
+          id: 'entry-2',
+          date: new Date('2025-10-08'),
+          values: { 'field-1': '80' },
+          createdAt: new Date('2025-10-08'),
+          updatedAt: new Date('2025-10-08'),
+        },
+      ];
+
+      const stats = calculateFieldStatistics(entriesWithStrings, mockField);
+
+      expect(stats).not.toBeNull();
+      if (stats) {
+        expect(stats.current).toBe(80);
+        expect(stats.min).toBe(75);
+        expect(stats.max).toBe(80);
+        expect(stats.average).toBe(77.5);
+        expect(stats.dataPoints).toBe(2);
+      }
+    });
+
+    it('should ignore invalid number strings', () => {
+      const entriesWithInvalid: Entry[] = [
+        {
+          id: 'entry-1',
+          date: new Date('2025-10-01'),
+          values: { 'field-1': '75,5' },
+          createdAt: new Date('2025-10-01'),
+          updatedAt: new Date('2025-10-01'),
+        },
+        {
+          id: 'entry-2',
+          date: new Date('2025-10-08'),
+          values: { 'field-1': 'invalid' },
+          createdAt: new Date('2025-10-08'),
+          updatedAt: new Date('2025-10-08'),
+        },
+        {
+          id: 'entry-3',
+          date: new Date('2025-10-15'),
+          values: { 'field-1': '80,2' },
+          createdAt: new Date('2025-10-15'),
+          updatedAt: new Date('2025-10-15'),
+        },
+      ];
+
+      const stats = calculateFieldStatistics(entriesWithInvalid, mockField);
+
+      expect(stats).not.toBeNull();
+      if (stats) {
+        expect(stats.dataPoints).toBe(2); // Only valid entries
+        expect(stats.min).toBeCloseTo(75.5, 1);
+        expect(stats.max).toBeCloseTo(80.2, 1);
+        expect(stats.average).toBeCloseTo(77.85, 2);
+      }
+    });
+
     it('should handle missing values', () => {
       const entriesWithMissing: Entry[] = [
         { ...mockEntries[0], values: {} },

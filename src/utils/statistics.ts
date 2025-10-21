@@ -6,6 +6,7 @@
 import { Entry } from '../types';
 import { Field } from '../types';
 import { subDays, isAfter, isBefore } from 'date-fns';
+import { parseLocalizedNumber } from './formatters';
 
 export interface FieldStatistics {
   fieldId: string;
@@ -35,7 +36,7 @@ export function calculateFieldStatistics(
     })
     .map((entry) => ({
       ...entry,
-      numericValue: Number(entry.values[field.id]),
+      numericValue: parseLocalizedNumber(String(entry.values[field.id])) ?? NaN,
     }))
     .filter((entry) => !isNaN(entry.numericValue))
     .sort((a, b) => b.date.getTime() - a.date.getTime()); // Sort by date descending

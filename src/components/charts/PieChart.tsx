@@ -14,7 +14,7 @@ import {
 } from 'chart.js';
 import ChartDataLabels, { Context } from 'chartjs-plugin-datalabels';
 import { Entry, Field } from '../../types';
-import { CHART_COLORS } from '../../utils';
+import { CHART_COLORS, parseLocalizedNumber } from '../../utils';
 import './PieChart.css';
 
 // Register Chart.js components
@@ -50,7 +50,10 @@ export function PieChart({ entries, selectedFields }: PieChartProps) {
     entries.forEach((entry) => {
       const value = entry.values[field.id];
       if (value !== undefined && value !== null) {
-        values.push(Number(value));
+        const numValue = parseLocalizedNumber(String(value));
+        if (numValue !== null) {
+          values.push(numValue);
+        }
       }
     });
 

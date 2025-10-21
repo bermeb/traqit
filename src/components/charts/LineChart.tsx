@@ -16,7 +16,7 @@ import {
   Filler,
 } from 'chart.js';
 import { Entry, Field } from '../../types';
-import { formatDate, CHART_COLORS } from '../../utils';
+import { formatDate, CHART_COLORS, parseLocalizedNumber } from '../../utils';
 import './LineChart.css';
 
 // Register Chart.js components
@@ -59,7 +59,7 @@ export function LineChart({ entries, selectedFields }: LineChartProps) {
   const datasets = selectedFields.map((field, index) => {
     const data = sortedEntries.map((entry) => {
       const value = entry.values[field.id];
-      return value !== undefined ? Number(value) : null;
+      return value !== undefined ? (parseLocalizedNumber(String(value)) ?? null) : null;
     });
 
     const color = CHART_COLORS[index % CHART_COLORS.length];

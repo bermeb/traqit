@@ -4,6 +4,7 @@
 
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from './constants';
 import { ImageValidationResult } from '../types';
+import { parseLocalizedNumber } from './formatters';
 
 /**
  * Validate field name
@@ -37,14 +38,15 @@ export function validateFieldUnit(unit: string): { valid: boolean; error?: strin
 
 /**
  * Validate numeric value
+ * Accepts both comma (,) and dot (.) as decimal separators
  */
 export function validateNumericValue(value: string): { valid: boolean; error?: string } {
   if (!value || value.trim().length === 0) {
     return { valid: false, error: 'Wert darf nicht leer sein' };
   }
 
-  const num = parseFloat(value);
-  if (isNaN(num)) {
+  const num = parseLocalizedNumber(value);
+  if (num === null) {
     return { valid: false, error: 'Ungültiger Zahlenwert' };
   }
 

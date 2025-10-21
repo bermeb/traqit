@@ -14,8 +14,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Entry, Field } from '../../types';
-import { formatDate } from '../../utils';
-import { CHART_COLORS } from '../../utils';
+import { formatDate, CHART_COLORS, parseLocalizedNumber } from '../../utils';
 import './BarChart.css';
 
 // Register Chart.js components
@@ -49,7 +48,7 @@ export function BarChart({ entries, selectedFields }: BarChartProps) {
   const datasets = selectedFields.map((field, index) => {
     const data = sortedEntries.map((entry) => {
       const value = entry.values[field.id];
-      return value !== undefined ? Number(value) : null;
+      return value !== undefined ? (parseLocalizedNumber(String(value)) ?? null) : null;
     });
 
     const color = CHART_COLORS[index % CHART_COLORS.length];
