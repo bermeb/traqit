@@ -15,8 +15,10 @@ export { PrivacyToggle } from './PrivacyToggle';
 export { ErrorBoundary } from './ErrorBoundary';
 export { Skeleton, SkeletonCard, SkeletonListItem } from './Skeleton';
 export { Toast } from './Toast';
+export { Tabs } from './Tabs';
 
 export type { ButtonVariant, ButtonSize } from './Button';
 export type { DatePickerProps } from './DatePicker';
 export type { SkeletonProps } from './Skeleton';
 export type { ToastType } from './Toast';
+export type { Tab } from './Tabs';

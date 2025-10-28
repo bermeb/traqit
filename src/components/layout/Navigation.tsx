@@ -15,10 +15,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { route: '/', label: 'Dashboard', icon: '📊' },
-  { route: '/fields', label: 'Felder', icon: '📝' },
-  { route: '/entries', label: 'Einträge', icon: '📅' },
-  { route: '/charts', label: 'Diagramme', icon: '📈' },
-  { route: '/image-compare', label: 'Bildvergleich', icon: '🖼️' },
+  { route: '/entries', label: 'Erfassung', icon: '📅' },
+  { route: '/analytics', label: 'Auswertung', icon: '📈' },
   { route: '/backup', label: 'Backup', icon: '💾' },
 ];
 

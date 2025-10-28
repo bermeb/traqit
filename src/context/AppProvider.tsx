@@ -108,7 +108,7 @@ export function AppProvider({ children }: AppProviderProps) {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1) || '/';
-      const validRoutes: Route[] = ['/', '/fields', '/entries', '/charts', '/backup', '/view-configs', '/image-compare'];
+      const validRoutes: Route[] = ['/', '/fields', '/entries', '/charts', '/backup', '/view-configs', '/image-compare', '/analytics'];
 
       if (validRoutes.includes(hash as Route)) {
         setCurrentRoute(hash as Route);

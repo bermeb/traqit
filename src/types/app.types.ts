@@ -47,4 +47,4 @@ export interface BackupMetadata {
   imagesCount: number;
 }
 
-export type Route = '/' | '/fields' | '/entries' | '/charts' | '/backup' | '/view-configs' | '/image-compare';
+export type Route = '/' | '/fields' | '/entries' | '/charts' | '/backup' | '/view-configs' | '/image-compare' | '/analytics';

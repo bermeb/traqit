@@ -9,3 +9,4 @@ export { ChartsPage } from './ChartsPage';
 export { BackupPage } from './BackupPage';
 export { ViewConfigsPage } from './ViewConfigsPage';
 export { ImageComparisonPage } from './ImageComparisonPage';
+export { AnalyticsPage } from './AnalyticsPage';

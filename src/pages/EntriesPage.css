@@ -1,20 +1,29 @@
 /**
  * EntriesPage Styles
+ * Combined styles for entries and fields
  */
 
 .entries-page {
   padding: var(--spacing-xl) 0;
 }
 
-.entries-page__header {
+.entries-page h2 {
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+.entries-page__header,
+.fields-page__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-lg);
 }
 
-.entries-page__header h2 {
+.entries-page__header h3,
+.fields-page__header h3 {
   margin: 0;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
 }
 
 .entries-page__actions {
@@ -24,7 +33,12 @@
 }
 
 @media (max-width: 640px) {
-  .entries-page__header {
+  .entries-page {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .entries-page__header,
+  .fields-page__header {
     flex-direction: column;
     align-items: stretch;
     gap: var(--spacing-md);
