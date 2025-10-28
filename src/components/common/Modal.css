@@ -109,15 +109,78 @@
   }
 }
 
-@media (max-width: 640px) {
+/* Mobile optimizations - Fullscreen modals */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 0;
+    align-items: stretch;
+  }
+
   .modal {
     max-height: 100vh;
+    height: 100vh;
+    max-width: 100%;
     border-radius: 0;
+    margin: 0;
   }
 
   .modal--sm,
   .modal--md,
   .modal--lg {
     max-width: 100%;
+    width: 100%;
+  }
+
+  .modal__header {
+    padding: var(--spacing-lg) var(--spacing-md);
+    position: sticky;
+    top: 0;
+    background-color: var(--color-surface);
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal__title {
+    font-size: var(--font-size-lg);
+  }
+
+  .modal__close {
+    width: 44px; /* Touch-friendly */
+    height: 44px;
+    font-size: 24px;
+  }
+
+  .modal__content {
+    padding: var(--spacing-md);
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+
+  .modal__actions {
+    padding: var(--spacing-md);
+    position: sticky;
+    bottom: 0;
+    background-color: var(--color-surface);
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .modal__actions button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  /* Slide up animation for mobile */
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }

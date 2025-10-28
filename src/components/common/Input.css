@@ -66,3 +66,40 @@ textarea.input {
   resize: vertical;
   font-family: inherit;
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .input {
+    min-height: 44px; /* Touch-friendly */
+    padding: var(--spacing-md) var(--spacing-md);
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    touch-action: manipulation;
+  }
+
+  .input__label {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .input-group {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  textarea.input {
+    min-height: 120px;
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+
+  /* Better focus state on mobile */
+  .input:focus {
+    border-width: 2px;
+    border-color: var(--color-primary);
+  }
+}
+
+@media (max-width: 480px) {
+  .input {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}

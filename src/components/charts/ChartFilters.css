@@ -135,16 +135,59 @@
   cursor: pointer;
 }
 
+/* Mobile optimizations */
 @media (max-width: 768px) {
+  .chart-filters__section {
+    padding: var(--spacing-md);
+  }
+
   .chart-filters__fields {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .chart-filters__field {
+    padding: var(--spacing-md);
+    min-height: 48px;
+  }
+
+  .chart-filters__field input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
   }
 
   .chart-filters__date-range {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .chart-filters__date-input input[type="date"] {
+    min-height: 48px;
+    font-size: 16px; /* Prevents iOS zoom */
   }
 
   .chart-filters__chart-types {
     flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .chart-filters__chart-type {
+    padding: var(--spacing-md);
+    min-height: 48px;
+  }
+
+  .chart-filters__chart-type input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .chart-filters__section {
+    padding: var(--spacing-sm);
+  }
+
+  .chart-filters__title {
+    font-size: var(--font-size-base);
   }
 }

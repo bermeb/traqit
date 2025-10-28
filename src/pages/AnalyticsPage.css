@@ -378,37 +378,64 @@
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
+  .analytics-page {
+    padding: var(--spacing-md) 0;
+  }
+
+  .analytics-page h2 {
+    margin-bottom: var(--spacing-md);
+    padding: 0 var(--spacing-md);
+  }
+
+  .analytics-page .container {
+    padding: 0 var(--spacing-md);
+  }
+
   .charts-page__section-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--spacing-sm);
   }
 
   .view-config-quick-card {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    padding: var(--spacing-md);
   }
 
   .view-config-quick-card__content {
     width: 100%;
   }
+
+  .view-config-quick-card__icon {
+    font-size: 1.5rem;
+  }
+
+  .time-unit-btn,
+  .mode-btn {
+    min-height: 48px;
+    padding: var(--spacing-md);
+  }
 }
 
 @media (max-width: 640px) {
   .analytics-page {
-    padding: var(--spacing-lg) 0;
+    padding: var(--spacing-sm) 0;
   }
 
   .analytics-page h2 {
-    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-2xl);
   }
 
   .image-comparison-page__subtitle {
     font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-md);
   }
 
   .image-comparison-page__time-selector {
     gap: var(--spacing-md);
+    padding: var(--spacing-md);
   }
 
   .time-input-group {
@@ -418,6 +445,8 @@
 
   .time-input {
     width: 100%;
+    font-size: 1.2rem;
+    padding: var(--spacing-md);
   }
 
   .time-unit-selector {
@@ -426,6 +455,7 @@
 
   .image-comparison-page__dates {
     flex-direction: column;
+    gap: var(--spacing-sm);
   }
 
   .selection-mode-toggle {
@@ -435,5 +465,9 @@
   .image-comparison-page__selectors {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+  }
+
+  .charts-page__view-config-list {
+    gap: var(--spacing-sm);
   }
 }
