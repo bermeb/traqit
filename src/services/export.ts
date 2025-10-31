@@ -70,13 +70,28 @@ export async function exportAsZip(): Promise<void> {
         const csv = await generateCSV(fields, entries);
         zip.file('data.csv', csv);
 
-        // Add images
+        // Add images (filter out orphaned images)
         if (images.length > 0) {
             const imagesFolder = zip.folder('images');
             if (imagesFolder) {
+                // Create a set of valid entry IDs for quick lookup
+                const validEntryIds = new Set(entries.map((e) => e.id));
+                let skippedImages = 0;
+
                 for (const image of images) {
+                    // Skip orphaned images (temp or no corresponding entry)
+                    if (image.entryId === 'temp' || !validEntryIds.has(image.entryId)) {
+                        console.warn(`Skipping orphaned image with entryId: ${image.entryId}`);
+                        skippedImages++;
+                        continue;
+                    }
+
                     const ext = image.mimeType.split('/')[1] || 'jpg';
                     imagesFolder.file(`${image.entryId}.${ext}`, image.blob);
+                }
+
+                if (skippedImages > 0) {
+                    console.info(`Skipped ${skippedImages} orphaned image(s) during export`);
                 }
             }
         }

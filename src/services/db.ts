@@ -248,6 +248,19 @@ export async function getImageByEntryId(entryId: string): Promise<StoredImage | 
 }
 
 /**
+ * Update an image's entryId
+ */
+export async function updateImageEntryId(imageId: string, newEntryId: string): Promise<void> {
+  const db = await getDB();
+  const image = await db.get('images', imageId);
+  if (!image) {
+    throw new Error(`Image with id ${imageId} not found`);
+  }
+  const updatedImage = { ...image, entryId: newEntryId };
+  await db.put('images', updatedImage);
+}
+
+/**
  * Delete an image
  */
 export async function deleteImage(id: string): Promise<void> {
@@ -261,6 +274,31 @@ export async function deleteImage(id: string): Promise<void> {
 export async function getAllImages(): Promise<StoredImage[]> {
   const db = await getDB();
   return await db.getAll('images');
+}
+
+/**
+ * Clean up orphaned images (images with no corresponding entry)
+ */
+export async function cleanupOrphanedImages(): Promise<number> {
+  const db = await getDB();
+  const images = await db.getAll('images');
+  const entries = await db.getAll('entries');
+
+  // Create a set of valid entry IDs
+  const validEntryIds = new Set(entries.map((e) => e.id));
+
+  let deletedCount = 0;
+
+  for (const image of images) {
+    // Delete images with 'temp' entryId or no corresponding entry
+    if (image.entryId === 'temp' || !validEntryIds.has(image.entryId)) {
+      await db.delete('images', image.id);
+      deletedCount++;
+      console.info(`Deleted orphaned image with entryId: ${image.entryId}`);
+    }
+  }
+
+  return deletedCount;
 }
 
 // ==================== UTILITY OPERATIONS ====================

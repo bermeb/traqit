@@ -33,6 +33,9 @@ export const CHART_PRESETS: ChartPreset[] = [
 export function getPresetDateRange(months: number): { start: Date; end: Date } {
   const end = new Date();
   const start = new Date();
+  // Set to first day of month before subtracting to avoid edge cases
+  // (e.g., Oct 31 - 1 month = Sept 31, which doesn't exist)
+  start.setDate(1);
   start.setMonth(start.getMonth() - months);
 
   return { start, end };

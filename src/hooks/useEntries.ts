@@ -61,6 +61,17 @@ export function useEntries(filter?: EntryFilter) {
         };
 
         await db.addEntry(entry);
+
+        // Update image's entryId if an image was uploaded
+        if (imageId) {
+          try {
+            await db.updateImageEntryId(imageId, entry.id);
+          } catch (err) {
+            console.warn('Failed to update image entryId:', err);
+            // Don't fail the entire operation if image update fails
+          }
+        }
+
         await refreshEntries();
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : 'Fehler beim Hinzufügen';
